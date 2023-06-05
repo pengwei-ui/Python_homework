@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/js/bootstrap.js"></script>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="../static/css/libs/bundle.css"/>
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="../static/css/theme/bundle.css"/>
+
+    <!-- Icon CSS -->
+    <link rel="stylesheet" href="../static/css/icon.css"/>
+    <title>Read_Image</title>
+    <style>
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #335eea;
+            font-size: 17px;
+            font-weight: bold;
+            border: 1px solid;
+            border-radius: 4px;
+            padding: 13px 20px;
+            overflow: hidden;
+            color: #FFFFFF;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+            margin-left: 10px;
+        }
+
+        .file input {
+            position: absolute;
+            text-align: center;
+
+            right: 0;
+            top: 0;
+            opacity: 0;
+            width: 100px;
+            height: 100px;
+        }
+
+        .file:hover {
+            background: #335eea;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+
+        body {
+            transform-origin: top center; /* 设置缩放基点为左上角 */
+            transform: scale(0.98); /* 缩小到原来的一半大小 */
+        }
+    </style>
+</head>
+<body onload="test('{{ image_result }}')">
+
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="d-flex" onclick="login()" style="position: absolute;top: 20%;margin-left: 2%">
+                    <i class="mdi mdi-home text-muted hover-cursor"></i>
+                    <p class="text-muted mb-0 hover-cursor">Home</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+
+                <button type="button" onclick="download();reload_downloads()"
+                        class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                    <i class="mdi mdi-download  ext-muted"></i>
+                </button>
+                <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-clock-outline text-muted"></i>
+                </button>
+                <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-plus text-muted"></i>
+                </button>
+                <button type="button" style="width: 200px;text-align: center"
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Components
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="slice slice-lg" style="display: flex;">
+    <div class="row no-gutters" style="display: flex; flex-direction: row;">
+        {% for animal, image_path in datas1 %}
+            <div class="col" style="flex-grow: 1;">
+                <div class="card border-0 h-100">
+                    <img class="rounded z-depth-4 img-fluid h-100 w-100" src='{{ image_path }}' alt="Image description">
+                    <div class="pt-4">
+                        <h5 class="card-title text-center" id="animals">{{ animal }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="slice slice-lg" style="display: flex;">
+    <div class="row no-gutters" style="display: flex; flex-direction: row;">
+        {% for animal, image_path in datas2 %}
+            <div class="col" style="flex-grow: 1;">
+                <div class="card border-0 h-100">
+                    <img class="rounded z-depth-4 img-fluid h-100 w-100" src='{{ image_path }}' alt="Image description">
+                    <div class="pt-4">
+                        <h5 class="card-title text-center" id="animals">{{ animal }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<div class="col-lg-4">
+    <div class="card" style="margin-left: 110%;text-align: center">
+        <img id="imagePreview" src="../static/images/Upload_Image.png" class="card-img-top" alt="..."
+             style="width: 350px;height: 283px">
+        <div class="card-body text-center">
+            <div style="display: flex;margin-left: -5%">
+                <a href="javascript:;" style="width: 120px;height: 54px;margin-left: 10%" class="file">选择文件 <input
+                        type="file"
+                        name=""
+                        id="fileInput"></a>
+                <button type="button" class="btn btn-primary" style="margin-left: 10%"
+                        onclick="check_image();">识别
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    let filepath;
+    let file_source = document.getElementById("fileInput").value
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        filepath = file;
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener('load', function () {
+                imagePreview.setAttribute('src', this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+
+    });
+
+    function check_image() {
+        window.open(`/check_image?image_name=${filepath.name}&image_result={{ image_result }}`, "_self")
+    }
+
+    //要是不写test则，会跳转获得result，但是要写了就不行了
+    function test(results) {
+        console.log(results)
+        if (results != null && results !== '') {
+            window.alert(results);
+        }
+    }
+</script>
+</body>
+
+
+</html>
+
+<!--
+
+<img id="imagePreview" src="#" class="img-fluid" alt="..." style="width: 400px;height: 400px">
+<input type="file" id="fileInput">
+<br>
+
+<img src="../static/images/test.jpg" class="img-fluid" alt="..." style="width: 400px;height: 400px">
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    let filepath;
+
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        filepath = file;
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener('load', function () {
+                imagePreview.setAttribute('src', this.result);
+            });
+            reader.readAsDataURL(file);
+            console.log(imagePreview.valueOf("src"))
+        }
+    });
+
+    function check_image(file_source) {
+        console.log(file_source)
+        window.open(`/check_image?file_source=${file_source}`)
+
+        const imgUrl = file_source
+// 如果浏览器支持msSaveOrOpenBlob方法（也就是使用IE浏览器的时候），那么调用该方法去下载图片
+        if (window.navigator.msSaveOrOpenBlob) {
+            var bstr = atob(imgUrl.split(',')[1])
+            var n = bstr.length
+            var u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            var blob = new Blob([u8arr])
+            window.navigator.msSaveOrOpenBlob(blob, 'chart-download' + '.' + 'png')
+        } else {
+            // 这里就按照chrome等新版浏览器来处理
+            const a = document.createElement('a')
+            a.href = imgUrl
+            a.setAttribute('download', 'chart-download')
+            a.click()
+        }
+    }
+</script>
+
+<section class="slice slice-lg">
+    <div style="width: 98%;margin-left: 1%">
+        <div class="row cols-xs-space cols-sm-space cols-md-space">
+            <div class="col-lg-2" style="width: 20%;">
+                <div class="card border-0">
+
+                        <img class="rounded z-depth-4 img-fluid" src=''
+                             alt="Image description">
+                        <div class="pt-4">
+                            <h5 class="card-title" id="animals"></h5>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    let filepath;
+    let file_source = document.getElementById("fileInput").value
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        filepath = file;
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener('load', function () {
+                imagePreview.setAttribute('src', this.result);
+            });
+            reader.readAsDataURL(file);
+            console.log(imagePreview.valueOf("src"))
+        }
+    });
+
+
+    function check_image(file_source) {
+        const formData = new FormData();
+        formData.append('file_source', file_source);
+        fetch('/check_image', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }

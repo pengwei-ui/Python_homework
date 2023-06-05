@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/js/bootstrap.js"></script>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="../static/css/libs/bundle.css"/>
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="../static/css/theme/bundle.css"/>
+
+    <!-- Icon CSS -->
+    <link rel="stylesheet" href="../static/css/icon.css"/>
+
+    <title>Components</title>
+</head>
+<body>
+
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="d-flex" onclick="login()" style="position: absolute;top: 20%;margin-left: 2%">
+                    <i class="mdi mdi-home text-muted hover-cursor"></i>
+                    <p class="text-muted mb-0 hover-cursor">Home</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+
+                <button type="button" onclick="download();reload_downloads()"
+                        class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                    <i class="mdi mdi-download  ext-muted"></i>
+                </button>
+                <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-clock-outline text-muted"></i>
+                </button>
+                <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-plus text-muted"></i>
+                </button>
+                <button type="button" style="width: 200px;text-align: center"
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Components
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="pt-4 pb-5 aos-init aos-animate" data-aos="fade-up">
+    <div class="jumbotron p-5 jumbotron-fluid bg-primary">
+        <div class="container h-100">
+            <div class="row justify-content-between align-items-center text-md-center text-lg-left">
+                <div class="col-lg-9">
+                    <h5 class="font-weight-light text-white">Some animal picture recognition can identify <strong> 10
+                        species</strong>
+                    </h5>
+                </div>
+                <div class="col-lg-3 text-md-center text-lg-right mt-4 mb-4">
+                    <a onclick="read_image()" class="btn btn-lg btn-info">Go To</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron p-5 jumbotron-fluid bg-warning">
+        <div class="container h-100">
+            <div class="row justify-content-between align-items-center text-md-center text-lg-left">
+                <div class="col-lg-9">
+                    <h5 class="font-weight-light text-dark">test test<strong> test</strong> test <strong><i
+                            class="fab fa-sass fa-2x"></i></strong> test</h5>
+                </div>
+                <div class="col-lg-3 text-md-center text-lg-right mt-4 mb-4">
+                    <a href="#" class="btn btn-lg btn-outline-dark">Go To</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script>
+    function login() {
+        window.open("/index?user={{ user }}&user_image={{ user_image }}", "_self")
+    }
+
+    function read_image() {
+        window.open(`/read_image?image_name={{image_name}}&image_result={{ image_result }}`)
+    }
+</script>
+
+</html>
